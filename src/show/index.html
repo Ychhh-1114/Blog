@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="http://cdn.bootcss.com/normalize/5.0.0/normalize.min.css">
+  <link rel="stylesheet" href="http://localhost:8080/show/css/main.css">
+  <title>ychhh_blog</title>
+</head>
+<body>
+<div id="app">
+    <div class="side-bar">
+      <div class="header">
+        <a href="/show/index.html" class="logo">ychhh_</a>
+        <div class="intro">拼搏百日，我上北邮!</div>
+      </div>
+
+      <div class="nav">
+        <a href="http://localhost:8080/show/aboutme.html" class="item">关于我</a>
+        <a href="http://localhost:8080/show/pay.html" class="item">打我😄</a>
+      </div>
+
+      <div class="tag-list">
+        <a href="http://localhost:8080/articles/web" class="item">👉 web </a>
+        <a href="http://localhost:8080/articles/java" class="item">👉 Java </a>
+        <a href="http://localhost:8080/articles/python" class="item">👉 Python </a>
+        <a href="http://localhost:8080/articles/design" class="item">👉 设计模式 </a>
+        <a href="http://localhost:8080/articles/person" class="item">👉 个人心得 </a>
+      </div>
+    </div>
+
+    <div class="main">
+
+        <div class="article-list"
+             style="background-color: grey"
+             v-for="(article,key) in articles">
+          <div class="item">
+            <a :href="'http://localhost:8080/articles/page/'+article.id" class="title">{{article.title}}</a>
+            <div class="status">发布于：{{article.createDate}} || 标签:{{article.tagName}}</div>
+            <div class="content">
+              {{article.summary}}
+            </div>
+          </div>
+
+        </div>
+
+  </div>
+<!--  <div class="inputBox" style=" width: 200px;height: 50px;position: relative;left: 1200px">-->
+<!--    <el-input-->
+<!--            placeholder="请输入内容"-->
+<!--            v-model="input"-->
+<!--            clearable>-->
+<!--    </el-input>-->
+<!--&lt;!&ndash;    <div class="inputBtn" style="position:relative;transform:translateY(-40px);left:200px ">&ndash;&gt;-->
+<!--&lt;!&ndash;      <el-row>&ndash;&gt;-->
+<!--&lt;!&ndash;        <el-button type="primary" round @click="search()">搜一下</el-button>&ndash;&gt;-->
+<!--&lt;!&ndash;      </el-row>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--  </div>-->
+
+
+</div>
+
+
+<script src="js/vue.js"></script>
+<script src="element-ui/lib/index.js"></script>
+<link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">
+<script src="js/axios-0.18.0.js"></script>
+<script>
+   new Vue({
+     el:"#app",
+     data(){
+       return{
+         articles:[],
+         articleUrl:"",
+         input:'',
+       }
+     },
+     mounted(){
+       var _this = this;
+
+        axios({
+          method:"post",
+          url:"/articles"
+        }).then(function (resp) {
+          _this.articles = resp.data.data;
+        })
+     },
+     methods:{
+       search(){
+         var _this = this;
+         axios({
+           method:"get",
+           url:"http://localhost:8080/articles/search" + _this.input
+         }).then(function (resp) {
+           _this.articles = resp.data.data;
+         })
+       }
+
+     }
+   })
+
+
+</script>
+
+
+</body>
+</html>
