@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <typeAliases>
+        <typeAlias type="blog.pojo.Tag" alias="tag"></typeAlias>
+        <typeAlias type="blog.pojo.Article" alias="article"></typeAlias>
+        <typeAlias type="blog.pojo.SysUser" alias="user"></typeAlias>
+    </typeAliases>
+
+    <mappers>
+        <package name="blog/mapper"/>
+    </mappers>
+
+
+</configuration>

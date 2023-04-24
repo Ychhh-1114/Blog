@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--MyBatis配置文件-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="blog.mapper.ArticleMapper">
+
+
+    <select id="getBodyByArticleId" resultType="blog.pojo.Article">
+        select ma.title as title,mat.content as content ,ma.create_date as createDate,ma.id as id
+        from ms_article ma,ms_article_body mat
+        where ma.id = mat.article_id
+        and ma.id = #{id};
+
+    </select>
+    <select id="getArticleIdsByTagId" resultType="java.lang.Long">
+        select article_id
+        from ms_article_tag
+        where ms_article_tag.tag_id = #{tagId};
+    </select>
+    <select id="selectByIds" resultType="blog.pojo.Article">
+        select *
+        from ms_article
+        where id in
+        <foreach collection="articleIds" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+
+    </select>
+    <select id="getArticleByKeywords" resultType="blog.pojo.Article">
+        select *
+        from ms_article
+        where
+            title like %#{keywords}%
+        or
+            summary like %#{keywords}%
+    </select>
+</mapper>
